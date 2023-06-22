@@ -185,15 +185,6 @@ vpg u_vpg (
 	.vpg_g(HDMI_TX_D[15:8]),
 	.vpg_b(HDMI_TX_D[7:0]) );
 
-//HDMI I2C
-I2C_HDMI_Config u_I2C_HDMI_Config (
-	.iCLK(FPGA_CLK1_50),
-	.iRST_N(reset_n),
-	.I2C_SCLK(HDMI_I2C_SCL),
-	.I2C_SDAT(HDMI_I2C_SDA),
-	.HDMI_TX_INT(HDMI_TX_INT)
-	 );
-
 	//Audio
 AUDIO_IF u_AVG(
 	.clk(AUD_CTRL_CLK),

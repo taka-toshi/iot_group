@@ -5,8 +5,8 @@
 // Permission:
 //
 //   Terasic grants permission to use and modify this code for use
-//   in synthesis for all Terasic Development Boards and Altera Development 
-//   Kits made by Terasic.  Other use of this code, including the selling 
+//   in synthesis for all Terasic Development Boards and Altera Development
+//   Kits made by Terasic.  Other use of this code, including the selling
 //   ,duplication, or modification of any portion is strictly prohibited.
 //
 // Disclaimer:
@@ -15,11 +15,11 @@
 //   which illustrates how these types of functions can be implemented.
 //   It is the user's responsibility to verify their design for
 //   consistency and functionality through the use of formal
-//   verification methods.  Terasic provides no warranty regarding the use 
+//   verification methods.  Terasic provides no warranty regarding the use
 //   or functionality of this code.
 //
 // ============================================================================
-//           
+//
 //  Terasic Technologies Inc
 //  9F., No.176, Sec.2, Gongdao 5th Rd, East Dist, Hsinchu City, 30070. Taiwan
 //
@@ -32,25 +32,23 @@
 
 /*
 
-Function: 
-	ADV7513 Video and Audio Control 
-	
+Function:
+	ADV7513 Video and Audio Control
+
 I2C Configuration Requirements:
 	Master Mode
 	I2S, 16-bits
-	
+
 Clock:
 	input Clock 1.536MHz (48K*Data_Width*Channel_Num)
-	
+
 Revision:
 	1.0, 10/06/2014, Init by Nick
-	
+
 Compatibility:
 	Quartus 14.0.2
 
 */
-
-
 
 
 module AUDIO_IF(
@@ -72,7 +70,7 @@ module AUDIO_IF(
  *****************************************************************************/
 
 	//
-output						sclk;	
+output						sclk;
 output 						lrclk;
 input 						reset_n;
 output	[3:0]				i2s;
@@ -103,16 +101,16 @@ begin
 	  lrclk<=0;
 	  sclk_Count<=0;
 	end
-	
+
 	else if(sclk_Count>=DATA_WIDTH-1)
 	begin
 	  sclk_Count <= 0;
 	  lrclk <= ~lrclk;
 	end
-	else 
+	else
      sclk_Count <= sclk_Count + 1;
 end
- 
+
 always@(negedge sclk or negedge reset_n)
 begin
   if(!reset_n)
@@ -125,7 +123,7 @@ begin
 	 begin
       Data_Count <= 0;
     end
-	 else 
+	 else
 	 Data_Count <= Data_Count +1;
   end
 end
@@ -213,9 +211,9 @@ begin
     46  :  Data_Bit      <=      57056   ;
     47  :  Data_Bit      <=      61259   ;
 	default	:
-		   Data_Bit		<=		0		;
+	    Data_Bit		<=		0		;
 	endcase
-	
+
 end
 endmodule
 
