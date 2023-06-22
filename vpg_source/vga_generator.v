@@ -108,10 +108,13 @@ always @ (posedge clk or negedge reset_n)
 		else
 			pixel_x	<=	8'b0;
 
+		// ====================
+		// horizontal sync
 		if (hs_end && !h_max)
 			vga_hs	<=	1'b1;
 		else
 			vga_hs	<=	1'b0;
+		// ====================
 
 		if (hr_start)
 			h_act		<=	1'b1;
@@ -140,10 +143,13 @@ always@(posedge clk or negedge reset_n)
 			else
 				v_count	<=	v_count + 12'b1;
 
+			// ====================
+			// vertical sync
 			if (vs_end && !v_max)
 				vga_vs	<=	1'b1;
 			else
 				vga_vs	<=	1'b0;
+			// ====================
 
 			if (vr_start)
 				v_act <=	1'b1;
@@ -183,8 +189,11 @@ begin
 	end
 	else
 	begin
+		// ====================
+		// deta sync
 		vga_de		<=	pre_vga_de;
 		pre_vga_de	<=	v_act && h_act;
+		// ====================
 
 		if ((!h_act_d&&h_act) || hr_end || (!v_act_d&&v_act) || vr_end)
 			boarder	<=	1'b1;
