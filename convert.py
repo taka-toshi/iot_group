@@ -10,7 +10,12 @@ resized_img = cv2.resize(img, (new_width, new_height))
 
 # rgbを取得する　1920x1080
 # textファイルを作成する
-f = open('rgb.txt', 'w')
+f = open('./vpg_source/rgb.v', 'w')
+g = open('template.txt', 'r')
+# gの8行目までをfに書き込む
+for i in range(8):
+    f.write(g.readline())
+
 
 for y in range(1080):
     for x in range(1920):
@@ -20,7 +25,20 @@ for y in range(1080):
         except:
             rgb = [0, 0, 0]
         # RGBをテキストファイルに書き込む
-        if x == 1919:
-            f.write(str(rgb[0]) + "," + str(rgb[1]) + "," + str(rgb[2]) + "\n")
+        if x==0 and y==0:
+            f.write("if (v_count == " + str(y) + " && h_count == " + str(x) + ") begin\n")
+            f.write("    read_r = 8'b" + format(rgb[0], '08b') + ";\n")
+            f.write("    read_g = 8'b" + format(rgb[1], '08b') + ";\n")
+            f.write("    read_b = 8'b" + format(rgb[2], '08b') + ";\n")
+            f.write("end\n")
         else:
-            f.write(str(rgb[0]) + "," + str(rgb[1]) + "," + str(rgb[2]) + " ")
+            f.write("else if (v_count == " + str(y) + " && h_count == " + str(x) + ") begin\n")
+            f.write("    read_r = 8'b" + format(rgb[0], '08b') + ";\n")
+            f.write("    read_g = 8'b" + format(rgb[1], '08b') + ";\n")
+            f.write("    read_b = 8'b" + format(rgb[2], '08b') + ";\n")
+            f.write("end\n")
+
+f.write("end\n")
+f.write("endmodule")
+f.close()
+g.close()
