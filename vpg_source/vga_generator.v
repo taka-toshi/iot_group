@@ -103,10 +103,10 @@ always @ (posedge clk or negedge reset_n)
 		else
 			h_count	<=	h_count + 12'b1;
 
-		if (h_act_d)
-			pixel_x	<=	pixel_x + 8'b1;
-		else
-			pixel_x	<=	8'b0;
+		//if (h_act_d)
+		pixel_x	<=	pixel_x + 8'b1;
+		//else
+		//	pixel_x	<=	8'b0;
 
 		// ====================
 		// horizontal sync
@@ -156,25 +156,25 @@ always@(posedge clk or negedge reset_n)
 			else if (vr_end)
 				v_act <=	1'b0;
 
-			if (vr_start)
-				color_mode[0] <=	1'b1;
-			else if (v_act_14)
-				color_mode[0] <=	1'b0;
-
-			if (v_act_14)
-				color_mode[1] <=	1'b1;
-			else if (v_act_24)
-				color_mode[1] <=	1'b0;
-
-			if (v_act_24)
-				color_mode[2] <=	1'b1;
-			else if (v_act_34)
-				color_mode[2] <=	1'b0;
-
-			if (v_act_34)
-				color_mode[3] <=	1'b1;
-			else if (vr_end)
-				color_mode[3] <=	1'b0;
+			//if (vr_start)
+			//	color_mode[0] <=	1'b1;
+			//else if (v_act_14)
+			//	color_mode[0] <=	1'b0;
+//
+			//if (v_act_14)
+			//	color_mode[1] <=	1'b1;
+			//else if (v_act_24)
+			//	color_mode[1] <=	1'b0;
+//
+			//if (v_act_24)
+			//	color_mode[2] <=	1'b1;
+			//else if (v_act_34)
+			//	color_mode[2] <=	1'b0;
+//
+			//if (v_act_34)
+			//	color_mode[3] <=	1'b1;
+			//else if (vr_end)
+			//	color_mode[3] <=	1'b0;
 		end
 	end
 
@@ -195,21 +195,22 @@ begin
 		pre_vga_de	<=	v_act && h_act;
 		// ====================
 
-		if ((!h_act_d&&h_act) || hr_end || (!v_act_d&&v_act) || vr_end)
-			boarder	<=	1'b1;
-		else
-			boarder	<=	1'b0;
-
-		if (boarder)
-			{vga_r, vga_g, vga_b} <= {8'hFF,8'hFF,8'hFF};
-		else
-			case (color_mode)
-				4'b0001	:	{vga_r, vga_g, vga_b}	<=	{pixel_x,8'h00,8'h00};
-				4'b0010	:	{vga_r, vga_g, vga_b}	<=	{8'h00,pixel_x,8'h00};
-				4'b0100	:	{vga_r, vga_g, vga_b}	<=	{8'h00,8'h00,pixel_x};
-				4'b1000	:	{vga_r, vga_g, vga_b}	<=	{pixel_x,pixel_x,pixel_x};
-				default	:	{vga_r, vga_g, vga_b}	<=	{8'h00,8'h00,8'h00};
-			endcase
+		//if ((!h_act_d&&h_act) || hr_end || (!v_act_d&&v_act) || vr_end)
+		//	boarder	<=	1'b1;
+		//else
+		//	boarder	<=	1'b0;
+//
+		//if (boarder)
+		//	{vga_r, vga_g, vga_b} <= {8'hFF,8'hFF,8'hFF};
+		//else
+		//	case (color_mode)
+		//		4'b0001	:	{vga_r, vga_g, vga_b}	<=	{pixel_x,8'h00,8'h00};
+		//		4'b0010	:	{vga_r, vga_g, vga_b}	<=	{8'h00,pixel_x,8'h00};
+		//		4'b0100	:	{vga_r, vga_g, vga_b}	<=	{8'h00,8'h00,pixel_x};
+		//		4'b1000	:	{vga_r, vga_g, vga_b}	<=	{pixel_x,pixel_x,pixel_x};
+		//		default	:	{vga_r, vga_g, vga_b}	<=	{8'h00,8'h00,8'h00};
+		//	endcase
+		{vga_r, vga_g, vga_b}	<=	{pixel_x,8'h00,8'h00};
 	end
 end
 
