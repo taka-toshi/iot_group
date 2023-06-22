@@ -173,26 +173,6 @@ end
 always @(mode)
 begin
 	case (mode)
-		`VGA_640x480p60: begin  // 50*1/(1*2)=25 MHZ
-			 m_counter <= 18'h1_00_00; //bypass
-			 n_counter <= 18'h1_00_00; //bypass 
-			 c_counter <= 18'h0_01_01; //1+1=2
-		end	
-		`MODE_720x480: begin  // 50*54/(5*20)=27 MHZ
-			 m_counter <= 18'h2_1B_1B; //27+27=54
-			 n_counter <= 18'h2_03_02; //3+2=5
-			 c_counter <= 18'h0_0A_0A; //10+10=20 
-		end
-		`MODE_1024x768: begin  // 50*13/(2*5)=65 MHZ
-			 m_counter <= 18'h2_07_06; //7+6=13
-			 n_counter <= 18'h0_01_01; //1+1=2
-			 c_counter <= 18'h2_03_02; //3+2=5 
-		end
-		`MODE_1280x1024: begin  // 50*54/(5*5)=108 MHZ
-			 m_counter <= 18'h0_1B_1B; //27+27=54
-			 n_counter <= 18'h2_03_02; //3+2=5
-			 c_counter <= 18'h2_03_02; //3+2=5 
-		end	
 		`FHD_1920x1080p60: begin  // 50*74/(5*5)=148 MHZ
 			 m_counter <= 18'h0_25_25; //37+37=74
 			 n_counter <= 18'h2_03_02; //3+2=5

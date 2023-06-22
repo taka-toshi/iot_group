@@ -146,37 +146,18 @@ vga_generator u_vga_generator (
 //v_active_14 : v_start + 1/4 active
 //v_active_24 : v_start + 2/4 active
 //v_active_34 : v_start + 3/4 active
+
 always @(mode)
 begin
 	case (mode)
-		`VGA_640x480p60: begin //640x480@60 25.175 MHZ
-			{h_total, h_sync, h_start, h_end} <= {12'd799, 12'd95, 12'd141, 12'd781}; 
-			{v_total, v_sync, v_start, v_end} <= {12'd524, 12'd1, 12'd34, 12'd514}; 
-			{v_active_14, v_active_24, v_active_34} <= {12'd154, 12'd274, 12'd394};
-		end	
-		`MODE_720x480: begin //720x480@60 27MHZ (VIC=3, 480P)
-			{h_total, h_sync, h_start, h_end} <= {12'd857, 12'd61, 12'd119, 12'd839}; 
-			{v_total, v_sync, v_start, v_end} <= {12'd524, 12'd5, 12'd35, 12'd515}; 
-			{v_active_14, v_active_24, v_active_34} <= {12'd155, 12'd275, 12'd395};
-		end
-		`MODE_1024x768: begin //1024x768@60 65MHZ (XGA)
-			{h_total, h_sync, h_start, h_end} <= {12'd1343, 12'd135, 12'd293, 12'd1317}; 
-			{v_total, v_sync, v_start, v_end} <= {12'd805, 12'd5, 12'd34, 12'd802}; 
-			{v_active_14, v_active_24, v_active_34} <= {12'd226, 12'd418, 12'd610};
-		end
-		`MODE_1280x1024: begin //1280x1024@60   108MHZ (SXGA)
-			{h_total, h_sync, h_start, h_end} <= {12'd1687, 12'd111, 12'd357, 12'd1637}; 
-			{v_total, v_sync, v_start, v_end} <= {12'd1065, 12'd2, 12'd40, 12'd1064}; 
-			{v_active_14, v_active_24, v_active_34} <= {12'd296, 12'd552, 12'd808};
-		end	
 		`FHD_1920x1080p60: begin //1920x1080p60 148.5MHZ (1080i)
-			{h_total, h_sync, h_start, h_end} <= {12'd2199, 12'd43, 12'd189, 12'd2109}; 
-			{v_total, v_sync, v_start, v_end} <= {12'd1124, 12'd4, 12'd40, 12'd1120}; 
-			{v_active_14, v_active_24, v_active_34} <= {12'd310, 12'd580, 12'd850};
-		end		
+			{h_total, h_sync, h_start, h_end} <= {12'd2199, 12'd43, 12'd189, 12'd2109}; // h_active = 1920
+			{v_total, v_sync, v_start, v_end} <= {12'd1124, 12'd4, 12'd40, 12'd1120}; // v_active = 1080
+			{v_active_14, v_active_24, v_active_34} <= {12'd310, 12'd580, 12'd850}; // 1/4 active = 270
+		end
 		default: begin //1920x1080p60 148.5MHZ (1080i)
-			{h_total, h_sync, h_start, h_end} <= {12'd2199, 12'd43, 12'd189, 12'd2109}; 
-			{v_total, v_sync, v_start, v_end} <= {12'd1124, 12'd4, 12'd40, 12'd1120}; 
+			{h_total, h_sync, h_start, h_end} <= {12'd2199, 12'd43, 12'd189, 12'd2109};
+			{v_total, v_sync, v_start, v_end} <= {12'd1124, 12'd4, 12'd40, 12'd1120};
 			{v_active_14, v_active_24, v_active_34} <= {12'd310, 12'd580, 12'd850};
 		end
 	endcase

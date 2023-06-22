@@ -18,7 +18,7 @@ output	[3:0]		vpg_mode;
 
 reg					pre_mode_button;
 reg					vpg_mode_change;
-reg		[3:0]		vpg_mode;	
+reg		[3:0]		vpg_mode;
 reg		[9:0]		m_virtual;
 
 always@(posedge clk or negedge reset_n)
@@ -38,14 +38,10 @@ begin
 		if (mode_button && !pre_mode_button || m_virtual[8] && !m_virtual[9])
 		begin
 			vpg_mode_change <= 1'b1;
-    	
-			if (vpg_mode == `FHD_1920x1080p60)
-				vpg_mode <= `VGA_640x480p60;
-			else
-				vpg_mode <= vpg_mode + 1'b1;
+			vpg_mode <= `FHD_1920x1080p60;
 		end
 	else
 		vpg_mode_change <= 1'b0;
-	end	
+	end
 end
 endmodule
