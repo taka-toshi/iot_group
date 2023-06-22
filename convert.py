@@ -2,19 +2,24 @@ import cv2
 
 # Read image
 img = cv2.imread("image.jpg")
+
 # Convert to 1920x1080 （縦横比を維持したまま、このサイズにリサイズする）
 height, width, channels = img.shape
-new_height = 1080
-new_width = int(width * new_height / height)
+
+tmp_height = 1080
+tmp_width = int(width * tmp_height / height)
+
+new_width = 1920
+new_height = int(height * new_width / width)
+if tmp_height*tmp_width > new_height*new_width:
+    new_height = tmp_height
+    new_width = tmp_width
+
 resized_img = cv2.resize(img, (new_width, new_height))
 
 # rgbを取得する　1920x1080
 # textファイルを作成する
 f = open('./vpg_source/data.txt', 'w')
-#g = open('template.txt', 'r')
-## gの7行目までをfに書き込む
-#for i in range(7):
-#    f.write(g.readline())
 
 for y in range(108):
     for x in range(192): # xは横
@@ -29,6 +34,6 @@ for y in range(108):
 
 f.close()
 
-# 画像を表示する
-# 1200, 480から192x108を保存する
+# 画像を保存する
 cv2.imwrite('image2.jpg', resized_img[340:340+108, 950:950+192])
+cv2.imwrite('image3.jpg', resized_img)
