@@ -69,6 +69,10 @@ wire				v_act_14, v_act_24, v_act_34;
 reg				boarder;
 reg	[3:0]		color_mode;
 
+wire	[7:0]	read_r;
+wire	[7:0]	read_g;
+wire	[7:0]	read_b;
+
 //=======================================================
 //  Structural coding
 //=======================================================
@@ -83,6 +87,14 @@ assign vr_end = v_count == v_end;
 assign v_act_14 = v_count == v_active_14;
 assign v_act_24 = v_count == v_active_24;
 assign v_act_34 = v_count == v_active_34;
+
+rgb_creator u_rgb_creator(
+	.h_count(h_count),
+	.v_count(v_count),
+	.read_r(read_r),
+	.read_g(read_g),
+	.read_b(read_b)
+);
 
 //horizontal control signals
 always @ (posedge clk or negedge reset_n)
@@ -210,7 +222,12 @@ begin
 		//		4'b1000	:	{vga_r, vga_g, vga_b}	<=	{pixel_x,pixel_x,pixel_x};
 		//		default	:	{vga_r, vga_g, vga_b}	<=	{8'h00,8'h00,8'h00};
 		//	endcase
-		{vga_r, vga_g, vga_b}	<=	{pixel_x,8'h00,8'h00};
+		//read_r <= $fscanf(file, "%d", read_r);
+		//read_g <= $fscanf(file, "%d", read_g);
+		//read_b <= $fscanf(file, "%d", read_b);
+		//rgb_creator(h_count, v_count, read_r, read_g, read_b);
+		{vga_r, vga_g, vga_b}	<=	{read_r, read_g, read_b};
+		//{vga_r, vga_g, vga_b}	<=	{8'h00,8'h00,8'h00};
 	end
 end
 

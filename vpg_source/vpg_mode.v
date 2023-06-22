@@ -34,7 +34,7 @@ begin
 	begin
 		m_virtual <= {m_virtual[8:0], 1'b1};
 		pre_mode_button <= mode_button;
-    
+
 		if (mode_button && !pre_mode_button || m_virtual[8] && !m_virtual[9])
 		begin
 			vpg_mode_change <= 1'b1;

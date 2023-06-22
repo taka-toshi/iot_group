@@ -35,16 +35,16 @@ begin
 	end
 	else
 	begin
- 		mode_change_d <= {mode_change_d[1:0], mode_change}; 	
-  	
+		mode_change_d <= {mode_change_d[1:0], mode_change};
+
 	case (state)
-		4'h0 : begin //idle		  	 
+		4'h0 : begin //idle
 			if (!mode_change_d[2] && mode_change_d[1])
-         begin
+			begin
 				state <=4'h1;
-	         mgmt_address <= 6'h0; //polling mode
-	         mgmt_writedata <= 32'h1;
-         end 
+				mgmt_address <= 6'h0; //polling mode
+				mgmt_writedata <= 32'h1;
+			end
 			end
 		4'h1 : begin //polling mode
 			if (write_count == 2'b0)
@@ -61,7 +61,7 @@ begin
 				end
 				else
 					write_count <= write_count+2'b1;
-			end	
+			end
 		4'h2 : begin //m_counter
 			if (write_count == 2'b0)
 				mgmt_write <= 1'b1;
@@ -77,7 +77,7 @@ begin
 				end
 				else
 					write_count <= write_count+2'b1;
-			end	
+			end
 		4'h3 : begin //n_counter
 			if (write_count == 2'b0)
 				mgmt_write <= 1'b1;
@@ -93,7 +93,7 @@ begin
 				end
 				else
 					write_count <= write_count+2'b1;
-			end	
+			end
 		4'h4 : begin //c_counter
 			if (write_count == 2'b0)
 				mgmt_write <= 1'b1;
@@ -109,7 +109,7 @@ begin
 				end
 				else
 					write_count <= write_count+2'b1;
-			end	
+			end
 		4'h5 : begin //bandwidth
 			if (write_count == 2'b0)
 				mgmt_write <= 1'b1;
@@ -125,7 +125,7 @@ begin
 				end
 				else
 					write_count <= write_count+2'b1;
-			end	
+			end
 		4'h6 : begin //charge pump
 			if (write_count == 2'b0)
 				mgmt_write <= 1'b1;
@@ -141,7 +141,7 @@ begin
 				end
 				else
 					write_count <= write_count+2'b1;
-			end	
+			end
 		4'h7 : begin //start reconfig
 			if (write_count == 2'b0)
 				mgmt_write <= 1'b1;
@@ -156,7 +156,7 @@ begin
 				end
 				else
 					write_count <= write_count+2'b1;
-			end	
+			end
 		4'h8 : begin //status check
 			if (mgmt_read && mgmt_readdata[0])
 			begin
@@ -165,23 +165,23 @@ begin
 			end
 			else
 				mgmt_read <= 1'b1;
-			end	
+			end
 	endcase
-	end	
+	end
 end
-  
+
 always @(mode)
 begin
 	case (mode)
 		`FHD_1920x1080p60: begin  // 50*74/(5*5)=148 MHZ
 			 m_counter <= 18'h0_25_25; //37+37=74
 			 n_counter <= 18'h2_03_02; //3+2=5
-			 c_counter <= 18'h2_03_02; //3+2=5 
-		end		
+			 c_counter <= 18'h2_03_02; //3+2=5
+		end
 		default: begin  // 50*81/(5*5)=162 MHZ
 			 m_counter <= 18'h2_29_28; //41+40=81
 			 n_counter <= 18'h2_03_02; //3+2=5
-			 c_counter <= 18'h2_03_02; //3+2=5  
+			 c_counter <= 18'h2_03_02; //3+2=5
 		end
 	endcase
 end
