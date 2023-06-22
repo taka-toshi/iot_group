@@ -12,8 +12,8 @@ resized_img = cv2.resize(img, (new_width, new_height))
 # textファイルを作成する
 f = open('./vpg_source/rgb.v', 'w')
 g = open('template.txt', 'r')
-# gの8行目までをfに書き込む
-for i in range(8):
+# gの7行目までをfに書き込む
+for i in range(7):
     f.write(g.readline())
 
 
@@ -25,19 +25,12 @@ for y in range(1080):
         except:
             rgb = [0, 0, 0]
         # RGBをテキストファイルに書き込む
-        if x==0 and y==0:
-            f.write("if (v_count == " + str(y) + " && h_count == " + str(x) + ") begin\n")
-            f.write("    read_r = 8'b" + format(rgb[0], '08b') + ";\n")
-            f.write("    read_g = 8'b" + format(rgb[1], '08b') + ";\n")
-            f.write("    read_b = 8'b" + format(rgb[2], '08b') + ";\n")
-            f.write("end\n")
-        else:
-            f.write("else if (v_count == " + str(y) + " && h_count == " + str(x) + ") begin\n")
-            f.write("    read_r = 8'b" + format(rgb[0], '08b') + ";\n")
-            f.write("    read_g = 8'b" + format(rgb[1], '08b') + ";\n")
-            f.write("    read_b = 8'b" + format(rgb[2], '08b') + ";\n")
-            f.write("end\n")
+        #case ({v_count, h_count})
+        #24'h000000: begin rgb_color = 24'b000000000000000000000000; end
+        # rc means rgb_color
+        f.write(f"24'h{y:03x}{x:03x}: begin rc = 24'h{rgb[2]:02x}{rgb[1]:02x}{rgb[0]:02x}; end\n")
 
+f.write("endcase\n")
 f.write("end\n")
 f.write("endmodule")
 f.close()

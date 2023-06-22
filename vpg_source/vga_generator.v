@@ -69,9 +69,7 @@ wire				v_act_14, v_act_24, v_act_34;
 reg				boarder;
 reg	[3:0]		color_mode;
 
-wire	[7:0]	read_r;
-wire	[7:0]	read_g;
-wire	[7:0]	read_b;
+wire	[23:0] rgb_color;
 
 //=======================================================
 //  Structural coding
@@ -91,9 +89,7 @@ assign v_act_34 = v_count == v_active_34;
 rgb_creator u_rgb_creator(
 	.h_count(h_count),
 	.v_count(v_count),
-	.read_r(read_r),
-	.read_g(read_g),
-	.read_b(read_b)
+	.rgb_color(rgb_color)
 );
 
 //horizontal control signals
@@ -226,7 +222,7 @@ begin
 		//read_g <= $fscanf(file, "%d", read_g);
 		//read_b <= $fscanf(file, "%d", read_b);
 		//rgb_creator(h_count, v_count, read_r, read_g, read_b);
-		{vga_r, vga_g, vga_b}	<=	{read_r, read_g, read_b};
+		{vga_r, vga_g, vga_b}	<=	rgb_color[23:0];
 		//{vga_r, vga_g, vga_b}	<=	{8'h00,8'h00,8'h00};
 	end
 end
