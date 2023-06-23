@@ -21,11 +21,11 @@ resized_img = cv2.resize(img, (new_width, new_height))
 # textファイルを作成する
 f = open('./vpg_source/data.txt', 'w')
 
-for y in range(108):
-    for x in range(192): # xは横
+for y in range(108*10):
+    for x in range(192*10): # xは横
         # RGBを取得
         try:
-            rgb = resized_img[y+340, x+950] # y,x
+            rgb = resized_img[y, x]
         except:
             rgb = [0, 0, 0]
         # RGBをテキストファイルに書き込む
