@@ -178,16 +178,36 @@ begin
 		// 18'hx_y_z y>=z ?
 		// n_counter < c_counter ?
 
+		//default: begin  // 50*1/(1*2)=25 MHZ
+		//	 m_counter <= 18'h1_00_00; //bypass
+		//	 n_counter <= 18'h1_00_00; //bypass
+		//	 c_counter <= 18'h0_01_01; //1+1=2
+		//end
+
+		//default: begin  // 50*54/(5*20)=27 MHZ
+		//	 m_counter <= 18'h2_1B_1B; //27+27=54
+		//	 n_counter <= 18'h2_03_02; //3+2=5
+		//	 c_counter <= 18'h0_0A_0A; //10+10=20
+		//end
+
+		// this is best
+		default: begin  // 50*13/(2*5)=65 MHZ
+			 m_counter <= 18'h2_07_06; //7+6=13
+			 n_counter <= 18'h0_01_01; //1+1=2
+			 c_counter <= 18'h2_03_02; //3+2=5
+		end
+
+		//default: begin  // 50*54/(5*5)=108 MHZ
+		//	m_counter <= 18'h0_1B_1B; //27+27=54
+		//	 n_counter <= 18'h2_03_02; //3+2=5
+		//	 c_counter <= 18'h2_03_02; //3+2=5
+		//end
+
 		//default: begin  // 50*59/(4*5)=147.5 MHZ
 		//	 m_counter <= 18'h2_1E_1D; //29+30=59
 		//	 n_counter <= 18'h2_02_02; //2+2=4
 		//	 c_counter <= 18'h2_03_02; //3+2=5
 		//end
-		default: begin  // 50*54/(5*5)=108 MHZ
-			m_counter <= 18'h0_1B_1B; //27+27=54
-			 n_counter <= 18'h2_03_02; //3+2=5
-			 c_counter <= 18'h2_03_02; //3+2=5
-		end
 
 		//default: begin  // 50*74/(5*5)=148 MHZ
 		//	 m_counter <= 18'h0_25_25; //37+37=74
