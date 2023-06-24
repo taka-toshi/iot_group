@@ -1,12 +1,12 @@
 // --------------------------------------------------------------------
-// Copyright (c) 2007 by Terasic Technologies Inc. 
+// Copyright (c) 2007 by Terasic Technologies Inc.
 // --------------------------------------------------------------------
 //
 // Permission:
 //
 //   Terasic grants permission to use and modify this code for use
-//   in synthesis for all Terasic Development Boards and Altera Development 
-//   Kits made by Terasic.  Other use of this code, including the selling 
+//   in synthesis for all Terasic Development Boards and Altera Development
+//   Kits made by Terasic.  Other use of this code, including the selling
 //   ,duplication, or modification of any portion is strictly prohibited.
 //
 // Disclaimer:
@@ -15,11 +15,11 @@
 //   which illustrates how these types of functions can be implemented.
 //   It is the user's responsibility to verify their design for
 //   consistency and functionality through the use of formal
-//   verification methods.  Terasic provides no warranty regarding the use 
+//   verification methods.  Terasic provides no warranty regarding the use
 //   or functionality of this code.
 //
 // --------------------------------------------------------------------
-//           
+//
 //                     Terasic Technologies Inc
 //                     356 Fu-Shin E. Rd Sec. 1. JhuBei City,
 //                     HsinChu County, Taiwan
@@ -67,10 +67,9 @@ wire        gen_clk_locked;
 wire [31:0] mgmt_readdata, mgmt_writedata;
 wire        mgmt_read, mgmt_write;
 wire [5:0]  mgmt_address;
-//============= assign timing constant  
-reg  [11:0] h_total, h_sync, h_start, h_end; 
-reg  [11:0] v_total, v_sync, v_start, v_end; 
-reg  [11:0] v_active_14, v_active_24, v_active_34; 
+//============= assign timing
+reg  [11:0] h_total, h_sync, h_start, h_end;
+reg  [11:0] v_total, v_sync, v_start, v_end;
 
 
 //=======================================================
@@ -90,11 +89,11 @@ pll_reconfig u_pll_reconfig (
 	.reconfig_from_pll(reconfig_from_pll) );
 
 pll u_pll (
-	.refclk(clk_50),           
-	.rst(!reset_n),              
-	.outclk_0(vpg_pclk), 
-	.locked(gen_clk_locked),           
-	.reconfig_to_pll(reconfig_to_pll),  
+	.refclk(clk_50),
+	.rst(!reset_n),
+	.outclk_0(vpg_pclk),
+	.locked(gen_clk_locked),
+	.reconfig_to_pll(reconfig_to_pll),
 	.reconfig_from_pll(reconfig_from_pll) );
 
 pll_controller u_pll_controller (
@@ -120,9 +119,6 @@ vga_generator u_vga_generator (
 	.v_sync(v_sync),
 	.v_start(v_start),
 	.v_end(v_end),
-	.v_active_14(v_active_14),
-	.v_active_24(v_active_24),
-	.v_active_34(v_active_34),
 	.vga_hs(vpg_hs),
 	.vga_vs(vpg_vs),
 	.vga_de(vpg_de),
@@ -134,7 +130,7 @@ vga_generator u_vga_generator (
 //=======================================================
 //  Structural coding
 //=======================================================
-//============= assign timing constant  
+//============= assign timing constant
 //h_total : total - 1
 //h_sync : sync - 1
 //h_start : sync + back porch - 1 - 2(delay)
@@ -143,9 +139,6 @@ vga_generator u_vga_generator (
 //v_sync : sync - 1
 //v_start : sync + back porch - 1
 //v_end : v_start + active
-//v_active_14 : v_start + 1/4 active
-//v_active_24 : v_start + 2/4 active
-//v_active_34 : v_start + 3/4 active
 
 always @(mode)
 begin
@@ -153,12 +146,10 @@ begin
 		`FHD_1920x1080p60: begin //1920x1080p60 148.5MHZ (1080i)
 			{h_total, h_sync, h_start, h_end} <= {12'd2199, 12'd43, 12'd189, 12'd2109}; // h_active = 1920
 			{v_total, v_sync, v_start, v_end} <= {12'd1124, 12'd4, 12'd40, 12'd1120}; // v_active = 1080
-			{v_active_14, v_active_24, v_active_34} <= {12'd310, 12'd580, 12'd850}; // 1/4 active = 270
 		end
 		default: begin //1920x1080p60 148.5MHZ (1080i)
 			{h_total, h_sync, h_start, h_end} <= {12'd2199, 12'd43, 12'd189, 12'd2109};
 			{v_total, v_sync, v_start, v_end} <= {12'd1124, 12'd4, 12'd40, 12'd1120};
-			{v_active_14, v_active_24, v_active_34} <= {12'd310, 12'd580, 12'd850};
 		end
 	endcase
 end
