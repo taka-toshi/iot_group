@@ -58,9 +58,7 @@ module vga_generator(
 reg	[11:0]	h_count;
 reg	[11:0]	v_count;
 reg				h_act;
-reg				h_act_d;
 reg				v_act;
-reg				v_act_d;
 reg				pre_vga_de;
 wire				h_max, hs_end, hr_start, hr_end;
 wire				v_max, vs_end, vr_start, vr_end;
@@ -93,15 +91,12 @@ end
 always @ (posedge clk or negedge reset_n)
 	if (!reset_n)
 	begin
-		h_act_d	<=	1'b0;
 		h_count	<=	12'b0;
 		vga_hs	<=	1'b1;
 		h_act		<=	1'b0;
 	end
 	else
 	begin
-		h_act_d	<=	h_act;
-
 		if (h_max)
 			h_count	<=	12'b0;
 		else
@@ -125,7 +120,6 @@ always @ (posedge clk or negedge reset_n)
 always@(posedge clk or negedge reset_n)
 	if(!reset_n)
 	begin
-		v_act_d		<=	1'b0;
 		v_count		<=	12'b0;
 		vga_vs		<=	1'b1;
 		v_act			<=	1'b0;
@@ -134,8 +128,6 @@ always@(posedge clk or negedge reset_n)
 	begin
 		if (h_max)
 		begin
-			v_act_d	  <=	v_act;
-
 			if (v_max)
 				v_count	<=	12'b0;
 			else
