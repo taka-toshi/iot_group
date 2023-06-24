@@ -60,6 +60,7 @@ reg				pre_vga_de;
 wire			h_max, hs_end, hr_start, hr_end;
 wire			v_max, vs_end, vr_start, vr_end;
 
+reg	[23:0]	rgb_data;
 reg [23:0] memory [0:108*192-1];
 
 //=======================================================
@@ -162,7 +163,8 @@ begin
 
 		// reg [23:0] memory [0:108*192-1];
 		// vやhが足りないので、10×10は同じデータを格納
-		{vga_r, vga_g, vga_b}	<= memory[(v_count-v_start)/10*192 + (h_count-h_start)/10];
+		rgb_data	<= memory[(v_count-v_start)/10*192 + (h_count-h_start)/10];
+		{vga_r, vga_g, vga_b}	<= rgb_data;
 	end
 end
 
