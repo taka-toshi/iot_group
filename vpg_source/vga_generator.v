@@ -69,8 +69,8 @@ wire				v_act_14, v_act_24, v_act_34;
 reg				boarder;
 reg	[3:0]		color_mode;
 
-reg	[23:0] rgb_color;
-//reg [23:0] memory [0:108*192*4-1];
+//reg	[23:0] rgb_color;
+reg [23:0] memory [0:108*192-1];
 
 //=======================================================
 //  Structural coding
@@ -87,15 +87,15 @@ assign v_act_14 = v_count == v_active_14;
 assign v_act_24 = v_count == v_active_24;
 assign v_act_34 = v_count == v_active_34;
 
-//initial begin
-//	$readmemh("data.txt", memory);
-//end
-
-integer file;
-
 initial begin
-	$fopen(file, "data.txt", "r");
+	$readmemh("data.txt", memory);
 end
+
+//integer file;
+//
+//initial begin
+//	$fopen(file, "data.txt", "r");
+//end
 
 //horizontal control signals
 always @ (posedge clk or negedge reset_n)
@@ -228,13 +228,13 @@ begin
 		//read_b <= $fscanf(file, "%d", read_b);
 		//rgb_creator(h_count, v_count, read_r, read_g, read_b);
 
-		// reg [23:0] memory [0:108*1920-1];
-		// vが足りないので、繰り返す hも同様
-		//{vga_r, vga_g, vga_b}	<= memory[v_count%(108*2)*(192*2)+h_count%(192*2)];
+		// reg [23:0] memory [0:108*192-1];
+		// vやhが足りないので、10×10は同じデータを格納
+		{vga_r, vga_g, vga_b}	<= memory[(v_count-v_start)/10*192 + (h_count-h_start)/10];
 
 		// data.txtの中身を読み込む v_count*1920+h_count行目
-		$fscanf(file, "%d", rgb_color);
-		{vga_r, vga_g, vga_b}	<= rgb_color;
+		//$fscanf(file, "%d", rgb_color);
+		//{vga_r, vga_g, vga_b}	<= rgb_color;
 
 		//{vga_r, vga_g, vga_b}	<=	{8'h00,8'h00,8'h00};
 	end

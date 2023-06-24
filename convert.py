@@ -1,15 +1,20 @@
 import cv2
+import numpy as np
+
+# define H, W
+H = 108
+W = 192
 
 # Read image
 img = cv2.imread("image.jpg")
 
-# Convert to 1920x1080 （縦横比を維持したまま、このサイズにリサイズする）
+# Convert to WxH （縦横比を維持したまま、このサイズにリサイズする）
 height, width, channels = img.shape
 
-tmp_height = 1080
+tmp_height = H
 tmp_width = int(width * tmp_height / height)
 
-new_width = 1920
+new_width = W
 new_height = int(height * new_width / width)
 if tmp_height*tmp_width > new_height*new_width:
     new_height = tmp_height
@@ -17,12 +22,12 @@ if tmp_height*tmp_width > new_height*new_width:
 
 resized_img = cv2.resize(img, (new_width, new_height))
 
-# rgbを取得する　1920x1080
+# rgbを取得する　WxH
 # textファイルを作成する
 f = open('./vpg_source/data.txt', 'w')
 
-for y in range(108*10):
-    for x in range(192*10): # xは横
+for y in range(H):
+    for x in range(W): # xは横
         # RGBを取得
         try:
             rgb = resized_img[y, x]
@@ -35,5 +40,18 @@ for y in range(108*10):
 f.close()
 
 # 画像を保存する
-cv2.imwrite('image2.jpg', resized_img[340:340+108, 950:950+192])
-cv2.imwrite('image3.jpg', resized_img)
+cv2.imwrite('image2.jpg', resized_img)
+
+# ===============================================
+# deta.txtから読み込む
+memory = []
+
+g = open('./vpg_source/data.txt', 'r')
+for rgb in g:
+    memory.append([int(rgb[4:6], 16), int(rgb[2:4], 16), int(rgb[0:2], 16)])
+
+memory = np.array(memory)
+memory = memory.reshape(H, W, 3)
+
+# 画像を表示
+cv2.imwrite('image3.jpg', memory)
