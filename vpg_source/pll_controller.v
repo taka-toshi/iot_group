@@ -35,16 +35,16 @@ begin
 	end
 	else
 	begin
- 		mode_change_d <= {mode_change_d[1:0], mode_change}; 	
-  	
+		mode_change_d <= {mode_change_d[1:0], mode_change};
+
 	case (state)
-		4'h0 : begin //idle		  	 
+		4'h0 : begin //idle
 			if (!mode_change_d[2] && mode_change_d[1])
-         begin
+			begin
 				state <=4'h1;
-	         mgmt_address <= 6'h0; //polling mode
-	         mgmt_writedata <= 32'h1;
-         end 
+				mgmt_address <= 6'h0; //polling mode
+				mgmt_writedata <= 32'h1;
+			end
 			end
 		4'h1 : begin //polling mode
 			if (write_count == 2'b0)
@@ -61,7 +61,7 @@ begin
 				end
 				else
 					write_count <= write_count+2'b1;
-			end	
+			end
 		4'h2 : begin //m_counter
 			if (write_count == 2'b0)
 				mgmt_write <= 1'b1;
@@ -77,7 +77,7 @@ begin
 				end
 				else
 					write_count <= write_count+2'b1;
-			end	
+			end
 		4'h3 : begin //n_counter
 			if (write_count == 2'b0)
 				mgmt_write <= 1'b1;
@@ -93,7 +93,7 @@ begin
 				end
 				else
 					write_count <= write_count+2'b1;
-			end	
+			end
 		4'h4 : begin //c_counter
 			if (write_count == 2'b0)
 				mgmt_write <= 1'b1;
@@ -109,7 +109,7 @@ begin
 				end
 				else
 					write_count <= write_count+2'b1;
-			end	
+			end
 		4'h5 : begin //bandwidth
 			if (write_count == 2'b0)
 				mgmt_write <= 1'b1;
@@ -125,7 +125,7 @@ begin
 				end
 				else
 					write_count <= write_count+2'b1;
-			end	
+			end
 		4'h6 : begin //charge pump
 			if (write_count == 2'b0)
 				mgmt_write <= 1'b1;
@@ -141,7 +141,7 @@ begin
 				end
 				else
 					write_count <= write_count+2'b1;
-			end	
+			end
 		4'h7 : begin //start reconfig
 			if (write_count == 2'b0)
 				mgmt_write <= 1'b1;
@@ -156,7 +156,7 @@ begin
 				end
 				else
 					write_count <= write_count+2'b1;
-			end	
+			end
 		4'h8 : begin //status check
 			if (mgmt_read && mgmt_readdata[0])
 			begin
@@ -165,44 +165,67 @@ begin
 			end
 			else
 				mgmt_read <= 1'b1;
-			end	
+			end
 	endcase
-	end	
+	end
 end
-  
+
 always @(mode)
 begin
 	case (mode)
-		`VGA_640x480p60: begin  // 50*1/(1*2)=25 MHZ
-			 m_counter <= 18'h1_00_00; //bypass
-			 n_counter <= 18'h1_00_00; //bypass 
-			 c_counter <= 18'h0_01_01; //1+1=2
-		end	
-		`MODE_720x480: begin  // 50*54/(5*20)=27 MHZ
-			 m_counter <= 18'h2_1B_1B; //27+27=54
-			 n_counter <= 18'h2_03_02; //3+2=5
-			 c_counter <= 18'h0_0A_0A; //10+10=20 
-		end
-		`MODE_1024x768: begin  // 50*13/(2*5)=65 MHZ
+		// 18'h2 means different ?
+		// 18'h0 means same ?
+		// 18'hx_y_z y>=z ?
+		// n_counter < c_counter ?
+
+		//default: begin  // 50*1/(1*2)=25 MHZ
+		//	 m_counter <= 18'h1_00_00; //bypass
+		//	 n_counter <= 18'h1_00_00; //bypass
+		//	 c_counter <= 18'h0_01_01; //1+1=2
+		//end
+
+		//default: begin  // 50*54/(5*20)=27 MHZ
+		//	 m_counter <= 18'h2_1B_1B; //27+27=54
+		//	 n_counter <= 18'h2_03_02; //3+2=5
+		//	 c_counter <= 18'h0_0A_0A; //10+10=20
+		//end
+
+		// this is best
+		default: begin  // 50*13/(2*5)=65 MHZ
 			 m_counter <= 18'h2_07_06; //7+6=13
 			 n_counter <= 18'h0_01_01; //1+1=2
-			 c_counter <= 18'h2_03_02; //3+2=5 
+			 c_counter <= 18'h2_03_02; //3+2=5
 		end
-		`MODE_1280x1024: begin  // 50*54/(5*5)=108 MHZ
-			 m_counter <= 18'h0_1B_1B; //27+27=54
-			 n_counter <= 18'h2_03_02; //3+2=5
-			 c_counter <= 18'h2_03_02; //3+2=5 
-		end	
-		`FHD_1920x1080p60: begin  // 50*74/(5*5)=148 MHZ
-			 m_counter <= 18'h0_25_25; //37+37=74
-			 n_counter <= 18'h2_03_02; //3+2=5
-			 c_counter <= 18'h2_03_02; //3+2=5 
-		end		
-		default: begin  // 50*81/(5*5)=162 MHZ
-			 m_counter <= 18'h2_29_28; //41+40=81
-			 n_counter <= 18'h2_03_02; //3+2=5
-			 c_counter <= 18'h2_03_02; //3+2=5  
-		end
+
+		//default: begin  // 50*54/(5*5)=108 MHZ
+		//	m_counter <= 18'h0_1B_1B; //27+27=54
+		//	 n_counter <= 18'h2_03_02; //3+2=5
+		//	 c_counter <= 18'h2_03_02; //3+2=5
+		//end
+
+		//default: begin  // 50*59/(4*5)=147.5 MHZ
+		//	 m_counter <= 18'h2_1E_1D; //29+30=59
+		//	 n_counter <= 18'h2_02_02; //2+2=4
+		//	 c_counter <= 18'h2_03_02; //3+2=5
+		//end
+
+		//default: begin  // 50*74/(5*5)=148 MHZ
+		//	 m_counter <= 18'h0_25_25; //37+37=74
+		//	 n_counter <= 18'h2_03_02; //3+2=5
+		//	 c_counter <= 18'h2_03_02; //3+2=5
+		//end
+
+		//default: begin  // 50*81/(5*5)=162 MHZ
+		//	 m_counter <= 18'h2_29_28; //41+40=81
+		//	 n_counter <= 18'h2_03_02; //3+2=5
+		//	 c_counter <= 18'h2_03_02; //3+2=5
+		//end
+
+		//default: begin  // 50*83/(5*5)=166 MHZ
+		//	 m_counter <= 18'h2_2A_29; //43+42=83
+		//	 n_counter <= 18'h2_03_02; //3+2=5
+		//	 c_counter <= 18'h2_03_02; //3+2=5
+		//end
 	endcase
 end
 

@@ -31,12 +31,12 @@
 // --------------------------------------------------------------------
 
 // mode define
-`define VGA_640x480p60		0
-`define MODE_720x480			1	// 480p,  	27		MHZ	 VIC=3
-`define MODE_1024x768		2	// XGA,   	65		MHZ	 
-`define MODE_1280x1024		3	// SXGA,  	108	MHZ
-`define FHD_1920x1080p60	4	// 1080i, 	74.25	MHZ    VIC=5
+//`define VGA_640x480p60		4
+//`define MODE_720x480			1	// 480p,  	27		MHZ	 VIC=3
+//`define MODE_1024x768		2	// XGA,   	65		MHZ	 
+//`define MODE_1280x1024		3	// SXGA,  	108	MHZ
+`define FHD_1920x1080p60	0	// 1080i, 	74.25	MHZ    VIC=5
 //`define FHD_1920x1080p60	?	// UXGA 1080p/60,165	MHZ    VIC=5
 
-`define COLOR_RGB444			0
+//`define COLOR_RGB444			0
 
