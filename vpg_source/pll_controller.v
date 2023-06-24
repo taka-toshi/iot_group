@@ -173,16 +173,16 @@ end
 always @(mode)
 begin
 	case (mode)
-		`FHD_1920x1080p60: begin  // 50*74/(5*5)=148 MHZ
+		default: begin  // 50*74/(5*5)=148 MHZ
 			 m_counter <= 18'h0_25_25; //37+37=74
 			 n_counter <= 18'h2_03_02; //3+2=5
 			 c_counter <= 18'h2_03_02; //3+2=5
 		end
-		default: begin  // 50*81/(5*5)=162 MHZ
-			 m_counter <= 18'h2_29_28; //41+40=81
-			 n_counter <= 18'h2_03_02; //3+2=5
-			 c_counter <= 18'h2_03_02; //3+2=5
-		end
+		//default: begin  // 50*81/(5*5)=162 MHZ
+		//	 m_counter <= 18'h2_29_28; //41+40=81
+		//	 n_counter <= 18'h2_03_02; //3+2=5
+		//	 c_counter <= 18'h2_03_02; //3+2=5
+		//end
 	endcase
 end
 

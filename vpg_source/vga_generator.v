@@ -41,9 +41,6 @@ module vga_generator(
   input				[11:0]	v_sync,
   input				[11:0]	v_start,
   input				[11:0]	v_end,
-  input				[11:0]	v_active_14,
-  input				[11:0]	v_active_24,
-  input				[11:0]	v_active_34,
   output	reg				vga_hs,
   output	reg				vga_vs,
   output	reg				vga_de,
@@ -60,10 +57,9 @@ reg	[11:0]	v_count;
 reg				h_act;
 reg				v_act;
 reg				pre_vga_de;
-wire				h_max, hs_end, hr_start, hr_end;
-wire				v_max, vs_end, vr_start, vr_end;
+wire			h_max, hs_end, hr_start, hr_end;
+wire			v_max, vs_end, vr_start, vr_end;
 
-//reg	[23:0] rgb_color;
 reg [23:0] memory [0:108*192-1];
 
 //=======================================================
