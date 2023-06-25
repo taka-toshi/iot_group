@@ -143,13 +143,9 @@ vga_generator u_vga_generator (
 always @(mode)
 begin
 	case (mode)
-		`FHD_1920x1080p60: begin //1920x1080p60 148.5MHZ (1080i)
+		default: begin //1920x1080p60 148.5MHZ (1080i)
 			{h_total, h_sync, h_start, h_end} <= {12'd2199, 12'd43, 12'd189, 12'd2109}; // h_active = 1920
 			{v_total, v_sync, v_start, v_end} <= {12'd1124, 12'd4, 12'd40, 12'd1120}; // v_active = 1080
-		end
-		default: begin //1920x1080p60 148.5MHZ (1080i)
-			{h_total, h_sync, h_start, h_end} <= {12'd2199, 12'd43, 12'd189, 12'd2109};
-			{v_total, v_sync, v_start, v_end} <= {12'd1124, 12'd4, 12'd40, 12'd1120};
 		end
 	endcase
 end
