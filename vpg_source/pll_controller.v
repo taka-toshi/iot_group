@@ -197,12 +197,14 @@ begin
 			 c_counter <= 18'h2_03_02; //3+2=5
 		end
 
+		// 108 MHZだとノイズが生じる
 		//default: begin  // 50*54/(5*5)=108 MHZ
 		//	m_counter <= 18'h0_1B_1B; //27+27=54
 		//	 n_counter <= 18'h2_03_02; //3+2=5
 		//	 c_counter <= 18'h2_03_02; //3+2=5
 		//end
 
+		// 元になかったやつ
 		//default: begin  // 50*59/(4*5)=147.5 MHZ
 		//	 m_counter <= 18'h2_1E_1D; //29+30=59
 		//	 n_counter <= 18'h2_02_02; //2+2=4
@@ -217,12 +219,6 @@ begin
 
 		//default: begin  // 50*81/(5*5)=162 MHZ
 		//	 m_counter <= 18'h2_29_28; //41+40=81
-		//	 n_counter <= 18'h2_03_02; //3+2=5
-		//	 c_counter <= 18'h2_03_02; //3+2=5
-		//end
-
-		//default: begin  // 50*83/(5*5)=166 MHZ
-		//	 m_counter <= 18'h2_2A_29; //43+42=83
 		//	 n_counter <= 18'h2_03_02; //3+2=5
 		//	 c_counter <= 18'h2_03_02; //3+2=5
 		//end
